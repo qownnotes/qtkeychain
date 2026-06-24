@@ -33,7 +33,7 @@ unix:!android:!macx:!ios {
             PKGCONFIG += libsecret-1
             DEFINES += HAVE_LIBSECRET
         } else {
-            !build_pass:warning("Libsecret not found.")
+            !build_pass:message("Libsecret not found.")
             !build_pass:message("Libsecret support: off")
         }
     } else {
@@ -58,7 +58,7 @@ unix:!android:!macx:!ios {
 }
 
 android {
-    lessThan(QT_MAJOR_VERSION, 6) {
+    equals(QT_MAJOR_VERSION, 5) {
         QT += androidextras
     }
 
@@ -69,6 +69,10 @@ android {
         $$QTKEYCHAIN_PWD/androidkeystore.cpp \
         $$QTKEYCHAIN_PWD/keychain_android.cpp \
         $$QTKEYCHAIN_PWD/plaintextstore.cpp
+}
+
+unix:!macx:!ios:!win32-msvc {
+    QMAKE_CXXFLAGS += -Wno-cast-function-type -Wno-switch
 }
 
 win32 {
